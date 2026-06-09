@@ -4,6 +4,7 @@ import {
   getTournaments,
   getTournamentRanking,
   getRecentActivity,
+  getPublicLeaderboard,
 } from '@/lib/data';
 
 export const dynamic = 'force-dynamic';
@@ -19,6 +20,15 @@ function shortTime(iso: string): string {
 }
 
 export default function Board() {
+  if (!getPublicLeaderboard()) {
+    return (
+      <>
+        <h1>Standings</h1>
+        <div className="empty">Public leaderboard is currently disabled</div>
+      </>
+    );
+  }
+
   const teams = getTeams();
   const tournaments = getTournaments();
 

@@ -7,8 +7,16 @@ Internal guide for working on this codebase. User-facing setup/run docs live in
 
 A single-purpose app for two organizers to run an Insurely conference: define
 teams and mini tournaments, enter scores from a phone, and show a live board.
-No multi-tenant concerns, no auth (organizers == admins == facilitators, same
-people). Small data set (≈6 teams, a handful of tournaments).
+No multi-tenant concerns. Organizers == admins == facilitators (same people).
+Small data set (≈6 teams, a handful of tournaments).
+
+**Auth boundary (enforced by Cloudflare Access, not the app):** `/teams`,
+`/score`, `/tournaments` are admin-only; the domain root `/` is public. The
+public board at `/` is additionally gated in-app by the `public_leaderboard`
+setting — when off it renders "Public leaderboard is currently disabled"
+regardless of who's viewing. Admins flip it from the Tourneys page
+(`setPublicLeaderboard`). The app does not read Access JWTs; it trusts the
+edge to keep unauthorized users off the admin paths.
 
 ## Stack & rendering model
 
@@ -62,6 +70,8 @@ parsed in `lib/data.ts`.
 - **tournaments** `(id, name, type, weight, config JSON, sort)`
 - **scores** `(id, tournament_id, team_id, value JSON, updated_at)` —
   `UNIQUE(tournament_id, team_id)`, upserted on save, FK `ON DELETE CASCADE`.
+- **settings** `(key, value)` (migration 2) — key/value store. Currently holds
+  `public_leaderboard` (`'1'`/`'0'`), default `'0'`.
 
 `type` ∈ `points | time | guesstimate | checkpoints`. JSON shapes by type:
 

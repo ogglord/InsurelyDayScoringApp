@@ -55,6 +55,18 @@ export function getTournamentRanking(t: Tournament, teams: Team[]): RankedTeam[]
   return rankTournament(t, scores, teams, teams.length);
 }
 
+// --- settings -------------------------------------------------------------
+export function getSetting(key: string): string | null {
+  const r = db().prepare('SELECT value FROM settings WHERE key = ?').get(key) as
+    | { value: string }
+    | undefined;
+  return r?.value ?? null;
+}
+
+export function getPublicLeaderboard(): boolean {
+  return getSetting('public_leaderboard') === '1';
+}
+
 export interface Activity {
   team: string;
   tournament: string;

@@ -22,8 +22,11 @@ db.exec(`
     value TEXT NOT NULL DEFAULT '{}',
     updated_at TEXT NOT NULL DEFAULT (datetime('now')),
     UNIQUE(tournament_id, team_id));
+  CREATE TABLE settings(key TEXT PRIMARY KEY, value TEXT NOT NULL);
 `);
-db.exec('PRAGMA user_version = 1;'); // mark as schema v1.0, same as the app
+// Demo: public leaderboard ON so the board is visible right away.
+db.exec("INSERT INTO settings(key, value) VALUES ('public_leaderboard', '1')");
+db.exec('PRAGMA user_version = 2;'); // mark as schema v2.0, same as the app
 
 const teams = [
   ['Red Foxes', 'A'], ['Blue Whales', 'B'], ['Gold Lions', 'A'],

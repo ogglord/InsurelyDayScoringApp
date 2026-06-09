@@ -62,6 +62,20 @@ const MIGRATIONS: Migration[] = [
       }
     },
   },
+  {
+    version: 2,
+    name: 'settings table + public leaderboard flag (v2.0)',
+    up(db) {
+      db.exec(`
+        CREATE TABLE IF NOT EXISTS settings (
+          key TEXT PRIMARY KEY,
+          value TEXT NOT NULL
+        );
+      `);
+      // Public leaderboard starts OFF; admin enables it when ready.
+      db.exec("INSERT OR IGNORE INTO settings (key, value) VALUES ('public_leaderboard', '0')");
+    },
+  },
 ];
 
 // Highest version this build knows about — i.e. the schema version of the code.

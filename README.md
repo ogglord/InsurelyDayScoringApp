@@ -23,6 +23,9 @@ native modules to compile, no external database server.
 - **Score entry** — per team per tournament, fully editable.
 - **Live board** — podium (top 3), overall standings, per-tournament placement
   matrix, recent-activity feed.
+- **Public leaderboard toggle** — admins turn the public board on/off (e.g.
+  between rounds). When off, the public URL shows "Public leaderboard is
+  currently disabled".
 
 ## Scoring model
 
@@ -58,9 +61,11 @@ systemd directly (no Docker) — the LXC is already your container, so Docker ju
 adds nesting config and overhead. Docker remains available for hosts that prefer
 images.
 
-> **No auth by default** — keep the tunnel URL private. To lock it down, put
-> **Cloudflare Access** in front of the tunnel (email/Google login, no app
-> changes needed).
+> **Auth model:** the app has no built-in login. Put **Cloudflare Access** in
+> front of the admin paths — `/teams`, `/score`, `/tournaments` — and leave the
+> domain root `/` public. The root serves the live board, gated in-app by the
+> **Public leaderboard** toggle (Tourneys page). See
+> [deploy/LXC-AGENT-SETUP.md](deploy/LXC-AGENT-SETUP.md#step-3--cloudflare-access-admin-pages-only).
 
 ### A) Ubuntu LXC + systemd (recommended)
 
@@ -137,9 +142,10 @@ Restore = put the file back at `DB_PATH` and start the app.
 
 ## Database schema versioning & migrations
 
-The schema is **versioned**, starting at **v1.0**. The version is stored in
-SQLite's `PRAGMA user_version` (integer; `1` == v1.0) and migrations run
-automatically on boot.
+The schema is **versioned** (started at **v1.0**; current **v2** adds the
+`settings` table for the public-leaderboard toggle). The version is stored in
+SQLite's `PRAGMA user_version` (integer; `1` == v1.0, `2` == v2) and migrations
+run automatically on boot.
 
 - Current version lives in code as `SCHEMA_VERSION` (see `lib/db.ts`).
 - On startup the app applies every migration whose version is greater than the

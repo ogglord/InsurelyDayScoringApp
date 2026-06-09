@@ -117,6 +117,18 @@ function readTournamentForm(formData: FormData) {
   return { name, type, weight, config };
 }
 
+// --- settings -------------------------------------------------------------
+export async function setPublicLeaderboard(formData: FormData) {
+  const enabled = String(formData.get('enabled')) === '1' ? '1' : '0';
+  db()
+    .prepare(
+      `INSERT INTO settings (key, value) VALUES ('public_leaderboard', ?)
+       ON CONFLICT(key) DO UPDATE SET value = excluded.value`,
+    )
+    .run(enabled);
+  bump();
+}
+
 // --- scores ---------------------------------------------------------------
 export async function saveScore(formData: FormData) {
   const tournamentId = Number(formData.get('tournament_id'));

@@ -1,18 +1,44 @@
 import Link from 'next/link';
-import { getTournaments } from '@/lib/data';
-import { createTournament } from '@/lib/actions';
+import { getTournaments, getPublicLeaderboard } from '@/lib/data';
+import { createTournament, setPublicLeaderboard } from '@/lib/actions';
 import { TYPE_LABELS } from '@/lib/types';
 import { TournamentForm } from './tournament-form';
+import { SubmitButton } from '@/app/submit-button';
 
 export const dynamic = 'force-dynamic';
 
 export default function TournamentsPage() {
   const tournaments = getTournaments();
+  const publicOn = getPublicLeaderboard();
 
   return (
     <>
       <h1>Tournaments</h1>
 
+      <div className="lbl">Public leaderboard</div>
+      <div className="card between">
+        <div>
+          <div style={{ fontWeight: 600 }}>
+            Public board is{' '}
+            <span style={{ color: publicOn ? 'var(--good)' : 'var(--mut)' }}>
+              {publicOn ? 'ON' : 'OFF'}
+            </span>
+          </div>
+          <div className="muted">
+            {publicOn
+              ? 'Anyone with the public URL sees the live standings.'
+              : 'Public sees “disabled” until you turn it on.'}
+          </div>
+        </div>
+        <form action={setPublicLeaderboard}>
+          <input type="hidden" name="enabled" value={publicOn ? '0' : '1'} />
+          <SubmitButton className={publicOn ? 'secondary small' : 'small'}>
+            {publicOn ? 'Turn off' : 'Turn on'}
+          </SubmitButton>
+        </form>
+      </div>
+
+      <div className="lbl">New tournament</div>
       <div className="card">
         <TournamentForm action={createTournament} submitLabel="Create tournament" />
       </div>

@@ -110,12 +110,32 @@ Expect `HTTP 200`. DNS may take a minute to propagate.
 
 ---
 
-## Step 3 (optional) — Lock it down with Cloudflare Access
+## Step 3 — Cloudflare Access (admin pages only)
 
-The app has **no built-in auth**. To restrict it, in the Cloudflare dashboard:
-Zero Trust → Access → Applications → add a self-hosted app for
-`scoring.ogglord.com`, with a policy allowing only specific emails. No app
-changes needed.
+The app has **no built-in auth**. The design is:
+
+- **Public (no login):** `/` — the live standings board, *only when an admin has
+  enabled it* (otherwise it shows "Public leaderboard is currently disabled").
+- **Admin (behind Access):** everything else — `/teams`, `/score`, `/tournaments`
+  (which includes tournament settings/edit, score entry, and the public-board
+  on/off toggle).
+
+In the Cloudflare dashboard → **Zero Trust → Access → Applications**, add a
+**self-hosted** application that covers the admin paths, with a policy allowing
+only your + your colleague's emails. Use path-scoped application(s) so `/`
+stays public. Add one application per protected path prefix:
+
+- `scoring.ogglord.com/teams`
+- `scoring.ogglord.com/score`
+- `scoring.ogglord.com/tournaments`
+
+Leave the domain root (`scoring.ogglord.com/`) with **no** Access application so
+the public board and static assets (`/_next/*`, `/insurely-logo.png`) stay open.
+
+> The public board is controlled in-app: an admin opens **Tourneys** and toggles
+> **Public leaderboard** on/off (e.g. on between rounds, off mid-tournament).
+> When off, the public URL shows the disabled message even though Access still
+> lets the world reach `/`.
 
 ---
 

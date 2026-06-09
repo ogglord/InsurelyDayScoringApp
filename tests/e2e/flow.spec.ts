@@ -73,7 +73,16 @@ test('full flow: teams, tournaments, scores, leaderboard', async ({ page }) => {
   await expect(quizRows.nth(0)).toContainText('Alpha');
   await expect(quizRows.nth(1)).toContainText('Bravo');
 
-  // Overall board: Alpha 4 pts (1st), Bravo 2 pts (2nd).
+  // Public board defaults OFF -> visitors see the disabled message.
+  await page.goto('/');
+  await expect(page.getByText('Public leaderboard is currently disabled')).toBeVisible();
+
+  // Admin enables it from the tournaments page.
+  await page.goto('/tournaments');
+  await page.getByRole('button', { name: 'Turn on' }).click();
+  await expect(page.getByRole('button', { name: 'Turn off' })).toBeVisible();
+
+  // Now the overall board is public: Alpha 4 pts (1st), Bravo 2 pts (2nd).
   await page.goto('/');
   await expect(page.getByRole('heading', { name: 'Standings' })).toBeVisible();
   const overall = page.locator('.rowcard');
