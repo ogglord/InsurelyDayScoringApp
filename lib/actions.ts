@@ -91,7 +91,7 @@ export async function updateTournament(formData: FormData) {
     .prepare('UPDATE tournaments SET name = ?, type = ?, weight = ?, config = ? WHERE id = ?')
     .run(name, type, weight, JSON.stringify(config), id);
   bump();
-  redirect(`/tournaments/${id}`);
+  redirect(`/score/${id}`);
 }
 
 export async function deleteTournament(formData: FormData) {

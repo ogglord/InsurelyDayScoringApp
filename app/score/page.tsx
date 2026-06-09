@@ -27,7 +27,7 @@ export default function ScoreHub() {
         const ranking = getTournamentRanking(t, teams);
         const top = ranking.find((r) => r.rank === 1);
         return (
-          <Link href={`/tournaments/${t.id}`} key={t.id}>
+          <Link href={`/score/${t.id}`} key={t.id}>
             <div className="card between">
               <div>
                 <div style={{ fontWeight: 600 }}>{t.name}</div>

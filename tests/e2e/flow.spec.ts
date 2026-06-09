@@ -35,6 +35,8 @@ async function enterScore(page: Page, tournament: string, team: string, value: s
     .locator('.card', { hasText: tournament })
     .getByRole('link', { name: /Enter scores/i })
     .click();
+  // Score entry lives under /score/<id>.
+  await expect(page).toHaveURL(/\/score\/\d+$/);
   await expect(page.getByRole('heading', { name: tournament })).toBeVisible();
 
   const form = page.locator('form', { hasText: team });

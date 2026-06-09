@@ -30,7 +30,7 @@ export default function TournamentsPage() {
           </div>
           <div className="muted" style={{ marginTop: 2 }}>{TYPE_LABELS[t.type]}</div>
           <div className="row" style={{ marginTop: 12 }}>
-            <Link href={`/tournaments/${t.id}`} className="btn small" style={{ width: '100%' }}>
+            <Link href={`/score/${t.id}`} className="btn small" style={{ width: '100%' }}>
               ✎ Enter scores
             </Link>
             <Link href={`/tournaments/${t.id}/edit`} className="btn secondary small" style={{ width: '100%' }}>

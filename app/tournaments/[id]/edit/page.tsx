@@ -18,7 +18,7 @@ export default async function EditTournament({
 
   return (
     <>
-      <Link href={`/tournaments/${t.id}`} className="muted">
+      <Link href={`/score/${t.id}`} className="muted">
         ‹ Back to {t.name}
       </Link>
       <h1>Settings</h1>
