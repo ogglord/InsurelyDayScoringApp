@@ -12,7 +12,7 @@ people). Small data set (≈6 teams, a handful of tournaments).
 
 ## Stack & rendering model
 
-- **Next.js App Router** (React 19), TypeScript. Output `standalone` for Docker.
+- **Next.js App Router** (React 19), TypeScript. Runtime is `next start` (`npm start`).
 - **Server Components** read the DB directly (synchronous `node:sqlite`); there
   is no API layer. Mutations are **Server Actions** in `lib/actions.ts`
   (`'use server'`), invoked from `<form action={...}>`.
@@ -139,7 +139,7 @@ restore a backup (see README → Data & backups).
 - `mockups/` holds the original static design explorations (Big Board, Quick
   Entry) — not part of the running app. The chosen design is "Control Room".
 - `scripts/seed.mjs` **deletes `./data`** before seeding — never run against prod.
-- The Docker image is `output: 'standalone'`; runtime is `node server.js`.
+- Runtime is `next start` (`npm start`) everywhere — systemd unit and Docker.
 
 ## Commands
 
@@ -159,7 +159,9 @@ sqlite3 data/conference.db 'PRAGMA user_version;'   # check schema version
   inside it only adds nesting config + overhead. `npm start` (= `next start`)
   runs the build under a systemd unit (`deploy/`). Needs Node ≥ 24 for unflagged
   `node:sqlite`.
-- **Alternative: Docker.** `output: 'standalone'` image, `node server.js`. Use
-  on hosts already running Docker or when you want a portable image.
+- **Alternative: Docker.** Same `next start` runtime (`npm start`) in the image,
+  dev deps pruned. Use on hosts already running Docker or for a portable image.
+  (No `output: 'standalone'` — the build matches the `next start` runtime, which
+  avoids the "next start does not work with output: standalone" warning.)
 - Both read/write the same SQLite file via `DB_PATH`; migrations run on boot
   either way.

@@ -65,6 +65,7 @@ export default function Board() {
   const podium = hasScores && ranked.length >= 3 ? [ranked[1], ranked[0], ranked[2]] : null;
   const podiumClass = ['p2', 'p1', 'p3'];
   const podiumMedal = ['🥈', '🥇', '🥉'];
+  const podiumPos = [2, 1, 3];
 
   return (
     <>
@@ -78,7 +79,10 @@ export default function Board() {
               <div className="pcol" key={r.team.id}>
                 <div className="pcap">{r.team.name}</div>
                 <div className="pscore">{round(r.total)} pts</div>
-                <div className={`bar ${podiumClass[i]}`}>{podiumMedal[i]}</div>
+                <div className={`pbar ${podiumClass[i]}`}>
+                  <span className="medal">{podiumMedal[i]}</span>
+                  <span className="pos">{podiumPos[i]}</span>
+                </div>
               </div>
             ))}
           </div>
