@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const items = [
-  { href: '/', label: 'Board', ico: '▦' },
+  { href: '/public', label: 'Board', ico: '▦' },
   { href: '/score', label: 'Enter Score', ico: '✎' },
   { href: '/tournaments', label: 'Tourneys', ico: '◎' },
   { href: '/teams', label: 'Teams', ico: '⦿' },

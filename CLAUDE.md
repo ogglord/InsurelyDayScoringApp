@@ -10,13 +10,16 @@ teams and mini tournaments, enter scores from a phone, and show a live board.
 No multi-tenant concerns. Organizers == admins == facilitators (same people).
 Small data set (≈6 teams, a handful of tournaments).
 
-**Auth boundary (enforced by Cloudflare Access, not the app):** `/teams`,
-`/score`, `/tournaments` are admin-only; the domain root `/` is public. The
-public board at `/` is additionally gated in-app by the `public_leaderboard`
-setting — when off it renders "Public leaderboard is currently disabled"
-regardless of who's viewing. Admins flip it from the Tourneys page
-(`setPublicLeaderboard`). The app does not read Access JWTs; it trusts the
-edge to keep unauthorized users off the admin paths.
+**Auth boundary (enforced by Cloudflare Access, not the app):** deny-by-default.
+Public pages live under `/public` — `/public` (board) and `/public/team/[id]`
+(members). Root `/` redirects to `/public`. Everything else (`/teams`, `/score`,
+`/tournaments`) is admin-only. CF protects the whole domain and bypasses
+`/public`, `/_next`, `/icon.svg`, `/insurely-logo.png`, and `/` (exact). The
+board is additionally gated in-app by the `public_leaderboard` setting — when
+off it renders "Public leaderboard is currently disabled" regardless of viewer.
+Admins flip it from the Tourneys page (`setPublicLeaderboard`). The app does not
+read Access JWTs; it trusts the edge. **Keep new public pages under `/public`**
+so the deny-by-default bypass list stays a single prefix.
 
 ## Stack & rendering model
 
@@ -41,7 +44,9 @@ app/
   layout.tsx              root layout: header (logo + title) + bottom nav
   globals.css             "Control Room" dark theme; all design tokens here
   nav.tsx                 bottom tab bar (client)
-  page.tsx                Board: podium, overall standings, matrix, activity
+  page.tsx                root — redirects to /public
+  public/page.tsx         PUBLIC board: podium, standings, matrix, activity (toggle-gated)
+  public/team/[id]/page.tsx  PUBLIC team page: members + per-tournament results
   leaderboard.tsx         shared ranked-rows component
   score/page.tsx          score hub: pick a tournament to enter scores
   teams/page.tsx          team CRUD + circuit assignment
@@ -148,6 +153,10 @@ restore a backup (see README → Data & backups).
   (`parseCheckpoints`, `readNumberedNumbers`) validate/clamp inputs.
 - `mockups/` holds the original static design explorations (Big Board, Quick
   Entry) — not part of the running app. The chosen design is "Control Room".
+- Public pages (`/public`, `/public/team/[id]`) use `getScoredTournaments()` for
+  real names and mask the remaining `getTournaments().length - scored` as
+  "undisclosed" (locked column / placeholder row) — confidential until a score
+  is entered. Admin pages always show all tournaments.
 - `scripts/seed.mjs` **deletes `./data`** before seeding — never run against prod.
 - Runtime is `next start` (`npm start`) everywhere — systemd unit and Docker.
 

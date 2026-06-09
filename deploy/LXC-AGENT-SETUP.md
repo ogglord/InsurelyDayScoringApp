@@ -110,32 +110,38 @@ Expect `HTTP 200`. DNS may take a minute to propagate.
 
 ---
 
-## Step 3 — Cloudflare Access (admin pages only)
+## Step 3 — Cloudflare Access (deny-by-default)
 
-The app has **no built-in auth**. The design is:
+The app has **no built-in auth**. The routing is split so Access can be
+deny-by-default — everything is protected except an explicit public allowlist:
 
-- **Public (no login):** `/` — the live standings board, *only when an admin has
-  enabled it* (otherwise it shows "Public leaderboard is currently disabled").
-- **Admin (behind Access):** everything else — `/teams`, `/score`, `/tournaments`
-  (which includes tournament settings/edit, score entry, and the public-board
-  on/off toggle).
+- **Public (no login):** `/public` (the live standings board) and
+  `/public/team/<id>` (team members), plus assets. The board only shows
+  standings when an admin has enabled it — otherwise "Public leaderboard is
+  currently disabled". Root `/` 307-redirects to `/public`.
+- **Admin (behind Access):** everything else — `/teams`, `/score`,
+  `/tournaments` (tournament settings/edit, score entry, public-board toggle).
 
-In the Cloudflare dashboard → **Zero Trust → Access → Applications**, add a
-**self-hosted** application that covers the admin paths, with a policy allowing
-only your + your colleague's emails. Use path-scoped application(s) so `/`
-stays public. Add one application per protected path prefix:
+In the Cloudflare dashboard → **Zero Trust → Access → Applications**:
 
-- `scoring.ogglord.com/teams`
-- `scoring.ogglord.com/score`
-- `scoring.ogglord.com/tournaments`
+1. **Protect everything:** add a **self-hosted** app for `scoring.ogglord.com`
+   (path `/`), policy = allow only your + your colleague's emails.
+2. **Bypass the public allowlist:** add self-hosted app(s) with an **Allow
+   Everyone / Bypass** policy (higher precedence — Access matches most-specific
+   path first) for:
+   - `scoring.ogglord.com/public` (covers `/public` and `/public/*`)
+   - `scoring.ogglord.com/_next` (Next.js CSS/JS — without this the public board
+     renders unstyled/broken)
+   - `scoring.ogglord.com/icon.svg` and `/insurely-logo.png` (favicon + logo)
+   - `scoring.ogglord.com/` **exact** (so the root redirect to `/public` works)
 
-Leave the domain root (`scoring.ogglord.com/`) with **no** Access application so
-the public board and static assets (`/_next/*`, `/insurely-logo.png`) stay open.
+Net effect: any new route is protected by default; only the public allowlist is
+open. Share **`scoring.ogglord.com`** — it lands on the public board.
 
-> The public board is controlled in-app: an admin opens **Tourneys** and toggles
-> **Public leaderboard** on/off (e.g. on between rounds, off mid-tournament).
-> When off, the public URL shows the disabled message even though Access still
-> lets the world reach `/`.
+> The public board is also gated in-app: an admin opens **Tourneys** and toggles
+> **Public leaderboard** on/off (on between rounds, off mid-tournament). When
+> off, `/public` shows the disabled message even though Access lets the world
+> reach it.
 
 ---
 

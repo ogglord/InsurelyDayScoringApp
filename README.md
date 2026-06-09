@@ -26,6 +26,9 @@ native modules to compile, no external database server.
 - **Public leaderboard toggle** — admins turn the public board on/off (e.g.
   between rounds). When off, the public URL shows "Public leaderboard is
   currently disabled".
+- **Confidential tournaments** — tournaments with no scores yet are masked on
+  public pages as "undisclosed" (count visible, name/scores hidden) and revealed
+  automatically once the first score is entered.
 
 ## Scoring model
 
@@ -61,11 +64,12 @@ systemd directly (no Docker) — the LXC is already your container, so Docker ju
 adds nesting config and overhead. Docker remains available for hosts that prefer
 images.
 
-> **Auth model:** the app has no built-in login. Put **Cloudflare Access** in
-> front of the admin paths — `/teams`, `/score`, `/tournaments` — and leave the
-> domain root `/` public. The root serves the live board, gated in-app by the
-> **Public leaderboard** toggle (Tourneys page). See
-> [deploy/LXC-AGENT-SETUP.md](deploy/LXC-AGENT-SETUP.md#step-3--cloudflare-access-admin-pages-only).
+> **Auth model:** no built-in login — **Cloudflare Access** is deny-by-default.
+> Public pages live under `/public` (the board + `/public/team/<id>`); root `/`
+> redirects there. Protect the whole domain and **bypass** `/public`, `/_next`,
+> `/icon.svg`, `/insurely-logo.png`, and `/` (exact). The board is also gated
+> in-app by the **Public leaderboard** toggle (Tourneys page). See
+> [deploy/LXC-AGENT-SETUP.md](deploy/LXC-AGENT-SETUP.md#step-3--cloudflare-access-deny-by-default).
 
 ### A) Ubuntu LXC + systemd (recommended)
 

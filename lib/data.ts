@@ -22,6 +22,16 @@ export function getTournaments(): Tournament[] {
   return rows.map(rowToTournament);
 }
 
+// Tournaments that have at least one score entered. Used on public pages so
+// unplayed tournaments stay confidential (their name/existence isn't leaked).
+export function getScoredTournaments(): Tournament[] {
+  const rows = db()
+    .prepare('SELECT DISTINCT tournament_id FROM scores')
+    .all() as { tournament_id: number }[];
+  const scored = new Set(rows.map((r) => r.tournament_id));
+  return getTournaments().filter((t) => scored.has(t.id));
+}
+
 export function getTournament(id: number): Tournament | null {
   const r = db()
     .prepare('SELECT * FROM tournaments WHERE id = ?')

@@ -343,6 +343,16 @@ button:disabled[aria-busy='true'] {
 .pip.fc {
   background: var(--cy);
 }
+.pip.pm {
+  background: transparent;
+  border: 1px dashed var(--line);
+}
+table.matrix td.masked {
+  color: var(--mut);
+}
+.masked-row {
+  opacity: 0.6;
+}
 .pts {
   text-align: right;
 }

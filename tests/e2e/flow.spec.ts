@@ -11,9 +11,10 @@ import { test, expect, type Page } from '@playwright/test';
 //   Placement (2 teams): 1st = 2 pts, 2nd = 1 pt
 //   Overall:      Alpha 2+2 = 4, Bravo 1+1 = 2  -> Alpha wins
 
-async function createTeam(page: Page, name: string) {
+async function createTeam(page: Page, name: string, members: string) {
   await page.goto('/teams');
   await page.fill('input[name="name"]', name);
+  await page.fill('textarea[name="members"]', members);
   await page.getByRole('button', { name: 'Add team' }).click();
   await expect(page.locator('summary', { hasText: name })).toBeVisible();
 }
@@ -52,11 +53,13 @@ async function enterScore(page: Page, tournament: string, team: string, value: s
 }
 
 test('full flow: teams, tournaments, scores, leaderboard', async ({ page }) => {
-  await createTeam(page, 'Alpha');
-  await createTeam(page, 'Bravo');
+  await createTeam(page, 'Alpha', 'Ann, Bea');
+  await createTeam(page, 'Bravo', 'Cy, Dee');
 
   await createTournament(page, 'Quiz', 'points');
   await createTournament(page, 'Puzzle', 'time');
+  // Confidential: created but never scored — must stay hidden on public pages.
+  await createTournament(page, 'SecretRound', 'points');
 
   await enterScore(page, 'Quiz', 'Alpha', '10');
   await enterScore(page, 'Quiz', 'Bravo', '5');
@@ -73,8 +76,9 @@ test('full flow: teams, tournaments, scores, leaderboard', async ({ page }) => {
   await expect(quizRows.nth(0)).toContainText('Alpha');
   await expect(quizRows.nth(1)).toContainText('Bravo');
 
-  // Public board defaults OFF -> visitors see the disabled message.
+  // Root redirects to the public board, which defaults OFF -> disabled message.
   await page.goto('/');
+  await expect(page).toHaveURL(/\/public$/);
   await expect(page.getByText('Public leaderboard is currently disabled')).toBeVisible();
 
   // Admin enables it from the tournaments page.
@@ -83,11 +87,25 @@ test('full flow: teams, tournaments, scores, leaderboard', async ({ page }) => {
   await expect(page.getByRole('button', { name: 'Turn off' })).toBeVisible();
 
   // Now the overall board is public: Alpha 4 pts (1st), Bravo 2 pts (2nd).
-  await page.goto('/');
+  await page.goto('/public');
   await expect(page.getByRole('heading', { name: 'Standings' })).toBeVisible();
   const overall = page.locator('.rowcard');
   await expect(overall.nth(0)).toContainText('Alpha');
   await expect(overall.nth(0)).toContainText('4');
   await expect(overall.nth(1)).toContainText('Bravo');
   await expect(overall.nth(1)).toContainText('2');
+
+  // Confidential tournament: name never leaks, shown only as masked/undisclosed.
+  await expect(page.getByText('SecretRound')).toHaveCount(0);
+  await expect(page.getByText(/undisclosed tournament/i)).toBeVisible();
+
+  // Clicking a team on the public board shows its members.
+  await overall.nth(0).click();
+  await expect(page).toHaveURL(/\/public\/team\/\d+$/);
+  await expect(page.getByRole('heading', { name: 'Alpha' })).toBeVisible();
+  await expect(page.getByText('Ann')).toBeVisible();
+  await expect(page.getByText('Bea')).toBeVisible();
+  // Masked here too — name hidden, placeholder shown.
+  await expect(page.getByText('SecretRound')).toHaveCount(0);
+  await expect(page.getByText('Undisclosed tournament')).toBeVisible();
 });
