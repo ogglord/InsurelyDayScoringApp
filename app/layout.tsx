@@ -3,7 +3,7 @@ import type { Metadata, Viewport } from 'next';
 import { Nav } from './nav';
 
 export const metadata: Metadata = {
-  title: 'Party Scoring App',
+  title: 'Insurely Day 2026',
   description: 'Mini tournament scoring for the conference',
 };
 
@@ -20,7 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <header className="bar">
           <img className="logo" src="/insurely-logo.png" alt="Insurely" />
-          <div className="sub">Party Scoring App</div>
+          <div className="sub">Insurely Day 2026</div>
         </header>
         <div className="app">{children}</div>
         <Nav />
