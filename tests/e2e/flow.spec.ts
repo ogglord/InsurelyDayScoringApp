@@ -66,6 +66,11 @@ test('full flow: teams, tournaments, scores, leaderboard', async ({ page }) => {
   await enterScore(page, 'Puzzle', 'Alpha', '50');
   await enterScore(page, 'Puzzle', 'Bravo', '100');
 
+  // Admin standings are visible even though the public board defaults OFF.
+  await page.goto('/standings');
+  await expect(page.getByRole('heading', { name: 'Standings' })).toBeVisible();
+  await expect(page.locator('.rowcard').first()).toContainText('Alpha');
+
   // Per-tournament: Quiz leaderboard should rank Alpha (10) above Bravo (5).
   await page.goto('/tournaments');
   await page

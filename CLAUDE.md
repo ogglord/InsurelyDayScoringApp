@@ -17,7 +17,9 @@ Public pages live under `/public` — `/public` (board) and `/public/team/[id]`
 `/public`, `/_next`, `/icon.svg`, `/insurely-logo.png`, and `/` (exact). The
 board is additionally gated in-app by the `public_leaderboard` setting — when
 off it renders "Public leaderboard is currently disabled" regardless of viewer.
-Admins flip it from the Tourneys page (`setPublicLeaderboard`). The app does not
+Admins flip it from the Tourneys page (`setPublicLeaderboard`) and can always
+view standings at `/standings` (admin-only, ignores the toggle, shows all
+tournaments unmasked). The app does not
 read Access JWTs; it trusts the edge. **Keep new public pages under `/public`**
 so the deny-by-default bypass list stays a single prefix.
 
@@ -45,8 +47,10 @@ app/
   globals.css             "Control Room" dark theme; all design tokens here
   nav.tsx                 bottom tab bar (client)
   page.tsx                root — redirects to /public
-  public/page.tsx         PUBLIC board: podium, standings, matrix, activity (toggle-gated)
+  board-view.tsx          shared standings board (masked/linkTeams options)
+  public/page.tsx         PUBLIC board: BoardView, toggle-gated + masked
   public/team/[id]/page.tsx  PUBLIC team page: members + per-tournament results
+  standings/page.tsx      ADMIN board (Access-protected): BoardView, ungated + unmasked
   leaderboard.tsx         shared ranked-rows component
   score/page.tsx          score hub: pick a tournament to enter scores
   teams/page.tsx          team CRUD + circuit assignment

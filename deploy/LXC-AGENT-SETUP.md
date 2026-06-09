@@ -120,7 +120,9 @@ deny-by-default — everything is protected except an explicit public allowlist:
   standings when an admin has enabled it — otherwise "Public leaderboard is
   currently disabled". Root `/` 307-redirects to `/public`.
 - **Admin (behind Access):** everything else — `/teams`, `/score`,
-  `/tournaments` (tournament settings/edit, score entry, public-board toggle).
+  `/tournaments` (settings/edit, score entry, public-board toggle), and
+  `/standings` (admin board — always shows standings even when the public board
+  is off). All auto-protected by deny-by-default; no per-route config needed.
 
 In the Cloudflare dashboard → **Zero Trust → Access → Applications**:
 

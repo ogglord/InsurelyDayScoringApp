@@ -29,6 +29,9 @@ export default function TournamentsPage() {
               ? 'Anyone with the public URL sees the live standings.'
               : 'Public sees “disabled” until you turn it on.'}
           </div>
+          <Link href="/standings" className="link" style={{ fontSize: 13 }}>
+            View standings (admin) ›
+          </Link>
         </div>
         <form action={setPublicLeaderboard}>
           <input type="hidden" name="enabled" value={publicOn ? '0' : '1'} />

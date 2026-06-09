@@ -25,7 +25,7 @@ native modules to compile, no external database server.
   matrix, recent-activity feed.
 - **Public leaderboard toggle** — admins turn the public board on/off (e.g.
   between rounds). When off, the public URL shows "Public leaderboard is
-  currently disabled".
+  currently disabled". Admins can still view standings any time at `/standings`.
 - **Confidential tournaments** — tournaments with no scores yet are masked on
   public pages as "undisclosed" (count visible, name/scores hidden) and revealed
   automatically once the first score is entered.
