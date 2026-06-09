@@ -4,10 +4,10 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const items = [
-  { href: '/', label: 'BOARD', ico: '▦' },
-  { href: '/score', label: 'SCORE', ico: '✎' },
-  { href: '/tournaments', label: 'EVENTS', ico: '◎' },
-  { href: '/teams', label: 'TEAMS', ico: '⦿' },
+  { href: '/', label: 'Board', ico: '▦' },
+  { href: '/score', label: 'Enter Score', ico: '✎' },
+  { href: '/tournaments', label: 'Tourneys', ico: '◎' },
+  { href: '/teams', label: 'Teams', ico: '⦿' },
 ];
 
 export function Nav() {

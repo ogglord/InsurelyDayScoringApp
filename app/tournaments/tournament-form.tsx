@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { TYPE_LABELS, GUESSTIMATE_QUESTIONS, type ScoringType } from '@/lib/types';
+import { SubmitButton } from '@/app/submit-button';
 
 export interface TournamentDefaults {
   id?: number;
@@ -90,7 +91,7 @@ export function TournamentForm({
         </p>
       )}
 
-      <button type="submit">{submitLabel}</button>
+      <SubmitButton>{submitLabel}</SubmitButton>
     </form>
   );
 }

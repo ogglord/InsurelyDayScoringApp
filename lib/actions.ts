@@ -38,6 +38,7 @@ export async function createTeam(formData: FormData) {
     .prepare('INSERT INTO teams (name, members, circuit) VALUES (?, ?, ?)')
     .run(name, JSON.stringify(members), circuit);
   bump();
+  redirect('/teams');
 }
 
 export async function updateTeam(formData: FormData) {
@@ -78,6 +79,7 @@ export async function createTournament(formData: FormData) {
     .prepare('INSERT INTO tournaments (name, type, weight, config) VALUES (?, ?, ?, ?)')
     .run(name, type, weight, JSON.stringify(config));
   bump();
+  redirect('/tournaments');
 }
 
 export async function updateTournament(formData: FormData) {

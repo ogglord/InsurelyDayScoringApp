@@ -162,6 +162,10 @@ button.small,
   font-size: 14px;
   margin-top: 0;
 }
+button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
 .row {
   display: flex;
   gap: 9px;

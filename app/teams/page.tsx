@@ -1,5 +1,6 @@
 import { getTeams } from '@/lib/data';
 import { createTeam, updateTeam, deleteTeam } from '@/lib/actions';
+import { SubmitButton } from '@/app/submit-button';
 
 export const dynamic = 'force-dynamic';
 
@@ -22,7 +23,7 @@ export default function TeamsPage() {
             <option value="A">Circuit A</option>
             <option value="B">Circuit B</option>
           </select>
-          <button type="submit">Add team</button>
+          <SubmitButton>Add team</SubmitButton>
         </form>
       </div>
 
