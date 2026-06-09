@@ -62,16 +62,16 @@ export default function TeamsPage() {
                 <option value="A">Circuit A</option>
                 <option value="B">Circuit B</option>
               </select>
-              <button type="submit" className="small" style={{ width: '100%', marginTop: 12 }}>
+              <SubmitButton className="small" style={{ width: '100%', marginTop: 12 }}>
                 Save
-              </button>
+              </SubmitButton>
             </form>
 
             <form action={deleteTeam}>
               <input type="hidden" name="id" value={t.id} />
-              <button type="submit" className="danger">
+              <SubmitButton className="danger" pendingLabel="Deleting…">
                 Delete team
-              </button>
+              </SubmitButton>
             </form>
           </details>
         </div>

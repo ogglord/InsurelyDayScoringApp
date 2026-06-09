@@ -11,6 +11,7 @@ import {
 } from '@/lib/types';
 import { fmtTime } from '@/lib/scoring';
 import { Leaderboard } from '@/app/leaderboard';
+import { SubmitButton } from '@/app/submit-button';
 
 export const dynamic = 'force-dynamic';
 
@@ -66,9 +67,9 @@ export default async function TournamentDetail({
               </div>
               <ScoreInputs t={t} team={team} value={scores.get(team.id)} />
             </div>
-            <button type="submit" className="small" style={{ flex: 'none' }}>
+            <SubmitButton className="small" style={{ flex: 'none' }}>
               Save
-            </button>
+            </SubmitButton>
           </form>
         </div>
       ))}

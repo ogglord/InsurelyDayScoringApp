@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { getTournament } from '@/lib/data';
 import { updateTournament, deleteTournament } from '@/lib/actions';
 import { TournamentForm } from '../../tournament-form';
+import { SubmitButton } from '@/app/submit-button';
 
 export const dynamic = 'force-dynamic';
 
@@ -42,9 +43,9 @@ export default async function EditTournament({
       <div className="card">
         <form action={deleteTournament}>
           <input type="hidden" name="id" value={t.id} />
-          <button type="submit" className="danger">
+          <SubmitButton className="danger" pendingLabel="Deleting…">
             Delete tournament
-          </button>
+          </SubmitButton>
         </form>
       </div>
     </>

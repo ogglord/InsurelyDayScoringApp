@@ -166,6 +166,26 @@ button:disabled {
   opacity: 0.55;
   cursor: not-allowed;
 }
+button:disabled[aria-busy='true'] {
+  opacity: 0.8;
+}
+.is-done {
+  background: var(--good) !important;
+  color: #06241d !important;
+  border-color: var(--good) !important;
+  animation: donepop 0.3s ease;
+}
+@keyframes donepop {
+  0% {
+    transform: scale(0.94);
+  }
+  55% {
+    transform: scale(1.04);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
 .row {
   display: flex;
   gap: 9px;

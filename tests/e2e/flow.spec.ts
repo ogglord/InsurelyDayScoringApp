@@ -39,11 +39,14 @@ async function enterScore(page: Page, tournament: string, team: string, value: s
 
   const form = page.locator('form', { hasText: team });
   await form.locator('input[name="raw"]').fill(value);
+  const saveBtn = form.locator('button[type="submit"]');
   // saveScore has no redirect; wait for the server action POST to finish.
   await Promise.all([
     page.waitForResponse((r) => r.request().method() === 'POST' && r.status() < 400),
-    form.getByRole('button', { name: 'Save' }).click(),
+    saveBtn.click(),
   ]);
+  // Button must clearly confirm completion with the transient "Saved ✓" state.
+  await expect(saveBtn).toHaveText(/Saved ✓/, { timeout: 5000 });
 }
 
 test('full flow: teams, tournaments, scores, leaderboard', async ({ page }) => {
