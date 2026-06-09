@@ -1,0 +1,29 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "app",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["start"],
+      "port": 3000
+    },
+    {
+      "name": "mockup-a",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["-y", "serve", "-s", "mockups/a", "-l", "4101"],
+      "port": 4101
+    },
+    {
+      "name": "mockup-b",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["-y", "serve", "-s", "mockups/b", "-l", "4102"],
+      "port": 4102
+    },
+    {
+      "name": "mockup-c",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["-y", "serve", "-s", "mockups/c", "-l", "4103"],
+      "port": 4103
+    }
+  ]
+}

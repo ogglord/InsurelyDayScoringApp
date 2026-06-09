@@ -1,0 +1,22 @@
+# Reference systemd unit. `deploy/install.sh` writes a copy of this with the
+# correct WorkingDirectory / User / DB_PATH filled in for your machine.
+# Manual install: edit the paths below, then:
+#   sudo cp deploy/conference-scoring.service /etc/systemd/system/
+#   sudo systemctl daemon-reload && sudo systemctl enable --now conference-scoring
+[Unit]
+Description=Conference Scoring (Next.js)
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/conference-scoring
+Environment=NODE_ENV=production
+Environment=PORT=3000
+Environment=DB_PATH=/opt/conference-scoring/data/conference.db
+ExecStart=/usr/bin/npm start
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

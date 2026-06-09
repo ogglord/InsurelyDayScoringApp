@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>Mockup B — Big Board</title>
+    <style>
+      :root {
+        --bg: #fbf7f0;
+        --ink: #1c1a17;
+        --mut: #8a8278;
+        --card: #ffffff;
+        --line: #ece5d9;
+        --foxes: #e8553b;
+        --whales: #2f7fd1;
+        --lions: #e6a91e;
+        --vipers: #3aa05a;
+        --hawks: #8b5cd6;
+        --bears: #d97a2b;
+      }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      body {
+        background: var(--bg);
+        color: var(--ink);
+        font-family: ui-sans-serif, -apple-system, system-ui, sans-serif;
+        padding-bottom: 30px;
+      }
+      .head { padding: 22px 20px 8px; }
+      .kick { font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: var(--mut); font-weight: 700; }
+      .h1 { font-size: 34px; font-weight: 900; line-height: 1.02; letter-spacing: -.02em; margin-top: 6px; }
+      .h1 em { font-style: normal; color: var(--foxes); }
+
+      .chips { display: flex; gap: 8px; overflow-x: auto; padding: 16px 20px 4px; }
+      .chip {
+        flex: none; padding: 9px 15px; border-radius: 999px; font-size: 13px; font-weight: 700;
+        background: #fff; border: 1.5px solid var(--line); color: var(--mut); white-space: nowrap;
+      }
+      .chip.on { background: var(--ink); color: #fff; border-color: var(--ink); }
+
+      .podium { display: flex; align-items: flex-end; gap: 10px; padding: 18px 20px 6px; }
+      .pcol { flex: 1; text-align: center; }
+      .pcap { font-size: 13px; font-weight: 800; margin-bottom: 7px; line-height: 1.1; }
+      .pscore { font-size: 12px; color: var(--mut); font-weight: 700; }
+      .bar { border-radius: 14px 14px 0 0; display: flex; align-items: flex-start; justify-content: center; padding-top: 10px; color: #fff; font-weight: 900; font-size: 22px; }
+      .b1 { height: 118px; background: var(--foxes); }
+      .b2 { height: 88px; background: var(--whales); }
+      .b3 { height: 64px; background: var(--lions); }
+      .medal { font-size: 20px; }
+
+      .rest { padding: 8px 20px 0; }
+      .rrow {
+        display: flex; align-items: center; gap: 14px; padding: 15px 0; border-bottom: 1px solid var(--line);
+      }
+      .swatch { width: 12px; height: 38px; border-radius: 6px; flex: none; }
+      .rrow .pos { font-size: 22px; font-weight: 900; color: var(--mut); width: 26px; }
+      .rrow .nm { flex: 1; font-size: 18px; font-weight: 800; }
+      .rrow .sc { font-size: 22px; font-weight: 900; }
+      .rrow .sc small { font-size: 12px; color: var(--mut); font-weight: 700; }
+
+      .foot { text-align: center; color: var(--mut); font-size: 13px; font-weight: 600; padding: 22px 0 6px; }
+    </style>
+  </head>
+  <body>
+    <div class="head">
+      <div class="kick">Insurely Offsite · Live</div>
+      <div class="h1">The <em>Big Board</em></div>
+    </div>
+
+    <div class="chips">
+      <div class="chip on">Overall</div>
+      <div class="chip">🎵 Music Quiz</div>
+      <div class="chip">⏱ Puzzle</div>
+      <div class="chip">🎯 Guesstimate</div>
+      <div class="chip">🧭 Orienteering</div>
+    </div>
+
+    <div class="podium">
+      <div class="pcol">
+        <div class="pcap">Blue Whales</div>
+        <div class="pscore">18 pts</div>
+        <div class="bar b2"><span class="medal">🥈</span></div>
+      </div>
+      <div class="pcol">
+        <div class="pcap">Red Foxes</div>
+        <div class="pscore">21 pts</div>
+        <div class="bar b1"><span class="medal">🥇</span></div>
+      </div>
+      <div class="pcol">
+        <div class="pcap">Gold Lions</div>
+        <div class="pscore">15 pts</div>
+        <div class="bar b3"><span class="medal">🥉</span></div>
+      </div>
+    </div>
+
+    <div class="rest">
+      <div class="rrow">
+        <div class="pos">4</div>
+        <div class="swatch" style="background: var(--vipers)"></div>
+        <div class="nm">Green Vipers</div>
+        <div class="sc">12<small> pts</small></div>
+      </div>
+      <div class="rrow">
+        <div class="pos">5</div>
+        <div class="swatch" style="background: var(--hawks)"></div>
+        <div class="nm">Purple Hawks</div>
+        <div class="sc">9<small> pts</small></div>
+      </div>
+      <div class="rrow">
+        <div class="pos">6</div>
+        <div class="swatch" style="background: var(--bears)"></div>
+        <div class="nm">Orange Bears</div>
+        <div class="sc">6<small> pts</small></div>
+      </div>
+    </div>
+
+    <div class="foot">Swipe chips to see each tournament →</div>
+  </body>
+</html>

@@ -1,0 +1,11 @@
+services:
+  scoring:
+    build: .
+    container_name: conference-scoring
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    environment:
+      - DB_PATH=/data/conference.db
+    volumes:
+      - ./data:/data

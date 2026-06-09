@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>Mockup A — Control Room</title>
+    <style>
+      :root {
+        --bg: #0b0e14;
+        --panel: #121722;
+        --panel2: #1a2130;
+        --line: #232c3d;
+        --txt: #e6ebf2;
+        --mut: #7d8696;
+        --cy: #2fe6c4;
+        --bl: #4d8dff;
+        --am: #ffc24b;
+        --gold: #ffd24a;
+        --rd: #ff6b6b;
+      }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      body {
+        background: var(--bg);
+        color: var(--txt);
+        font-family: ui-sans-serif, -apple-system, system-ui, sans-serif;
+        padding-bottom: 78px;
+      }
+      .mono { font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+      header {
+        padding: 16px 16px 12px;
+        border-bottom: 1px solid var(--line);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        background: linear-gradient(#0b0e14, #0b0e14ee);
+        backdrop-filter: blur(8px);
+      }
+      header .ttl { font-size: 13px; letter-spacing: .14em; color: var(--mut); }
+      header .sub { font-size: 19px; font-weight: 800; margin-top: 2px; }
+      .live {
+        font-size: 11px; color: var(--cy); display: flex; align-items: center; gap: 6px;
+        letter-spacing: .1em;
+      }
+      .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--cy); box-shadow: 0 0 8px var(--cy); }
+      .wrap { padding: 14px 14px 0; }
+      .lbl { font-size: 11px; letter-spacing: .12em; color: var(--mut); margin: 18px 4px 8px; text-transform: uppercase; }
+      .lbl:first-child { margin-top: 6px; }
+
+      .rowcard {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 11px 12px;
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        margin-bottom: 7px;
+      }
+      .rk {
+        width: 26px; height: 26px; border-radius: 7px; flex: none;
+        display: flex; align-items: center; justify-content: center;
+        font-weight: 800; font-size: 13px; background: var(--panel2); color: var(--mut);
+      }
+      .rk.g1 { background: var(--gold); color: #111; }
+      .rk.g2 { background: #c6ccd6; color: #111; }
+      .rk.g3 { background: #cd8b5b; color: #111; }
+      .nm { flex: 1; }
+      .nm b { font-size: 15px; font-weight: 700; }
+      .pips { display: flex; gap: 4px; margin-top: 5px; }
+      .pip { height: 4px; flex: 1; border-radius: 2px; background: var(--panel2); }
+      .pip.f { background: var(--bl); }
+      .pip.fc { background: var(--cy); }
+      .pts { text-align: right; }
+      .pts .n { font-size: 20px; font-weight: 800; font-family: ui-monospace, monospace; }
+      .pts .u { font-size: 10px; color: var(--mut); letter-spacing: .1em; }
+      .delta { color: var(--cy); font-size: 11px; }
+
+      table { width: 100%; border-collapse: collapse; font-size: 12px; }
+      .tblcard { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+      th, td { padding: 9px 7px; text-align: center; border-bottom: 1px solid var(--line); }
+      th { color: var(--mut); font-weight: 600; font-size: 10px; letter-spacing: .06em; }
+      td:first-child, th:first-child { text-align: left; font-weight: 600; }
+      tr:last-child td { border-bottom: none; }
+      .tot { color: var(--gold); font-weight: 800; font-family: ui-monospace, monospace; }
+      .typ { font-size: 9px; }
+
+      .ticker {
+        background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+        padding: 10px 12px; font-size: 12px; color: var(--mut); display: flex; gap: 8px; align-items: center;
+      }
+      .ticker b { color: var(--txt); }
+      .ticker .t { color: var(--cy); }
+
+      nav {
+        position: fixed; bottom: 0; left: 0; right: 0; display: flex;
+        background: var(--panel); border-top: 1px solid var(--line);
+      }
+      nav a { flex: 1; text-align: center; padding: 11px 0 14px; font-size: 10px; color: var(--mut); letter-spacing: .05em; }
+      nav a .i { display: block; font-size: 19px; margin-bottom: 3px; }
+      nav a.on { color: var(--cy); }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div>
+        <div class="ttl mono">INSURELY · OFFSITE</div>
+        <div class="sub">Conference Control</div>
+      </div>
+      <div class="live mono"><span class="dot"></span>LIVE</div>
+    </header>
+
+    <div class="wrap">
+      <div class="lbl">Overall standings</div>
+
+      <div class="rowcard">
+        <div class="rk g1">1</div>
+        <div class="nm">
+          <b>Red Foxes</b>
+          <div class="pips"><span class="pip f"></span><span class="pip fc"></span><span class="pip f"></span><span class="pip f"></span></div>
+        </div>
+        <div class="pts"><div class="n">21</div><div class="u">PTS</div></div>
+      </div>
+
+      <div class="rowcard">
+        <div class="rk g2">2</div>
+        <div class="nm">
+          <b>Blue Whales</b>
+          <div class="pips"><span class="pip f"></span><span class="pip f"></span><span class="pip"></span><span class="pip fc"></span></div>
+        </div>
+        <div class="pts"><div class="n">18</div><div class="u">PTS</div></div>
+      </div>
+
+      <div class="rowcard">
+        <div class="rk g3">3</div>
+        <div class="nm">
+          <b>Gold Lions</b>
+          <div class="pips"><span class="pip fc"></span><span class="pip f"></span><span class="pip f"></span><span class="pip"></span></div>
+        </div>
+        <div class="pts"><div class="n">15</div><div class="u">PTS</div></div>
+      </div>
+
+      <div class="rowcard">
+        <div class="rk">4</div>
+        <div class="nm">
+          <b>Green Vipers</b>
+          <div class="pips"><span class="pip f"></span><span class="pip"></span><span class="pip f"></span><span class="pip fc"></span></div>
+        </div>
+        <div class="pts"><div class="n">12</div><div class="u">PTS</div></div>
+      </div>
+
+      <div class="rowcard">
+        <div class="rk">5</div>
+        <div class="nm">
+          <b>Purple Hawks</b>
+          <div class="pips"><span class="pip"></span><span class="pip f"></span><span class="pip fc"></span><span class="pip"></span></div>
+        </div>
+        <div class="pts"><div class="n">9</div><div class="u">PTS</div></div>
+      </div>
+
+      <div class="lbl">Placement matrix</div>
+      <div class="tblcard">
+        <table class="mono">
+          <thead>
+            <tr><th>Team</th><th>Quiz</th><th>Puzz</th><th>Guess</th><th>Orient</th><th>Σ</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Red Foxes</td><td>6</td><td>5</td><td>4</td><td>6</td><td class="tot">21</td></tr>
+            <tr><td>Blue Whales</td><td>4</td><td>6</td><td>3</td><td>5</td><td class="tot">18</td></tr>
+            <tr><td>Gold Lions</td><td>5</td><td>3</td><td>5</td><td>2</td><td class="tot">15</td></tr>
+            <tr><td>Green Vipers</td><td>3</td><td>2</td><td>3</td><td>4</td><td class="tot">12</td></tr>
+            <tr><td>Purple Hawks</td><td>1</td><td>4</td><td>2</td><td>2</td><td class="tot">9</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="lbl">Activity</div>
+      <div class="ticker mono">
+        <span class="t">14:32</span> <b>Puzzle</b> · Blue Whales 1:48 → moved to #1
+      </div>
+    </div>
+
+    <nav>
+      <a class="on"><span class="i">▦</span>BOARD</a>
+      <a><span class="i">✎</span>SCORE</a>
+      <a><span class="i">◎</span>EVENTS</a>
+      <a><span class="i">⦿</span>TEAMS</a>
+    </nav>
+  </body>
+</html>

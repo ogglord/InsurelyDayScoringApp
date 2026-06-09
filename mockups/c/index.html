@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>Mockup C — Quick Entry</title>
+    <style>
+      :root {
+        --bg: #0e0f1a;
+        --card: #1b1d2e;
+        --card2: #252840;
+        --line: #2f3350;
+        --txt: #f0f1f7;
+        --mut: #9094b3;
+        --ac: #6c5ce7;
+        --ac2: #00d8a7;
+        --gold: #ffd24a;
+      }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      body {
+        background: var(--bg); color: var(--txt);
+        font-family: ui-sans-serif, -apple-system, system-ui, sans-serif;
+      }
+      .top { padding: 16px 16px 10px; display: flex; align-items: center; justify-content: space-between; }
+      .step { font-size: 12px; color: var(--mut); letter-spacing: .1em; text-transform: uppercase; }
+      .top h1 { font-size: 21px; font-weight: 800; margin-top: 3px; }
+      .closen { color: var(--mut); font-size: 26px; line-height: 1; }
+
+      .tour {
+        margin: 4px 16px 0; background: linear-gradient(135deg, var(--ac), #4b3fc4);
+        border-radius: 14px; padding: 13px 16px; display: flex; align-items: center; gap: 12px;
+      }
+      .tour .ic { font-size: 24px; }
+      .tour .nm { font-weight: 800; font-size: 16px; }
+      .tour .ty { font-size: 12px; opacity: .85; }
+      .tour .chg { margin-left: auto; font-size: 12px; background: #ffffff22; padding: 6px 11px; border-radius: 999px; font-weight: 700; }
+
+      .sect { font-size: 12px; color: var(--mut); letter-spacing: .1em; text-transform: uppercase; margin: 20px 16px 10px; }
+      .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 16px; }
+      .team {
+        background: var(--card); border: 1.5px solid var(--line); border-radius: 13px;
+        padding: 15px 14px; display: flex; align-items: center; gap: 11px; font-weight: 700; font-size: 15px;
+      }
+      .team .av { width: 30px; height: 30px; border-radius: 9px; flex: none; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:800; color:#fff; }
+      .team.sel { border-color: var(--ac2); background: #14302b; }
+      .team .ckt { margin-left: auto; font-size: 10px; color: var(--mut); font-weight: 700; }
+
+      .entry { margin: 18px 16px 0; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 18px; }
+      .entry .who { font-size: 13px; color: var(--mut); }
+      .entry .who b { color: var(--ac2); }
+      .display { font-size: 52px; font-weight: 800; font-variant-numeric: tabular-nums; margin: 4px 0 2px; letter-spacing: -.02em; }
+      .display .cur { color: var(--ac2); }
+      .hint { font-size: 12px; color: var(--mut); }
+
+      .pad { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-top: 16px; }
+      .key { background: var(--card2); border-radius: 12px; text-align: center; padding: 16px 0; font-size: 22px; font-weight: 700; }
+      .key.del { color: var(--mut); }
+
+      .save {
+        position: fixed; left: 16px; right: 16px; bottom: 16px;
+        background: var(--ac2); color: #06241d; border: none; border-radius: 16px;
+        padding: 18px; font-size: 18px; font-weight: 800; width: calc(100% - 32px);
+      }
+      .pad { margin-bottom: 86px; }
+    </style>
+  </head>
+  <body>
+    <div class="top">
+      <div>
+        <div class="step">Step 2 of 2 · Enter score</div>
+        <h1>Who scored?</h1>
+      </div>
+      <div class="closen">×</div>
+    </div>
+
+    <div class="tour">
+      <span class="ic">🧭</span>
+      <div>
+        <div class="nm">Orienteering</div>
+        <div class="ty">Correct checkpoints · higher wins</div>
+      </div>
+      <span class="chg">Change</span>
+    </div>
+
+    <div class="sect">Tap a team</div>
+    <div class="grid">
+      <div class="team sel">
+        <span class="av" style="background:#e8553b">RF</span>Red Foxes
+        <span class="ckt">A</span>
+      </div>
+      <div class="team">
+        <span class="av" style="background:#2f7fd1">BW</span>Blue Whales
+        <span class="ckt">B</span>
+      </div>
+      <div class="team">
+        <span class="av" style="background:#e6a91e">GL</span>Gold Lions
+        <span class="ckt">A</span>
+      </div>
+      <div class="team">
+        <span class="av" style="background:#3aa05a">GV</span>Green Vipers
+        <span class="ckt">B</span>
+      </div>
+    </div>
+
+    <div class="entry">
+      <div class="who">Scoring <b>Red Foxes</b> · Circuit A</div>
+      <div class="display">7<span class="cur"> ✓</span></div>
+      <div class="hint">checkpoints correct of 9 · order ignored</div>
+
+      <div class="pad">
+        <div class="key">1</div><div class="key">2</div><div class="key">3</div>
+        <div class="key">4</div><div class="key">5</div><div class="key">6</div>
+        <div class="key">7</div><div class="key">8</div><div class="key">9</div>
+        <div class="key del">⌫</div><div class="key">0</div><div class="key">✓</div>
+      </div>
+    </div>
+
+    <button class="save">Save & next team →</button>
+  </body>
+</html>
