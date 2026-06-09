@@ -23,20 +23,21 @@ export default function TournamentsPage() {
       )}
 
       {tournaments.map((t) => (
-        <Link href={`/tournaments/${t.id}`} key={t.id}>
-          <div className="card between">
-            <div>
-              <div style={{ fontWeight: 600 }}>{t.name}</div>
-              <div className="muted">{TYPE_LABELS[t.type]}</div>
-            </div>
-            <div style={{ textAlign: 'right' }}>
-              <span className="tag">×{t.weight}</span>
-              <div className="muted" style={{ marginTop: 4 }}>
-                score ›
-              </div>
-            </div>
+        <div className="card" key={t.id}>
+          <div className="between">
+            <div style={{ fontWeight: 600 }}>{t.name}</div>
+            <span className="tag">×{t.weight}</span>
           </div>
-        </Link>
+          <div className="muted" style={{ marginTop: 2 }}>{TYPE_LABELS[t.type]}</div>
+          <div className="row" style={{ marginTop: 12 }}>
+            <Link href={`/tournaments/${t.id}`} className="btn small" style={{ width: '100%' }}>
+              ✎ Enter scores
+            </Link>
+            <Link href={`/tournaments/${t.id}/edit`} className="btn secondary small" style={{ width: '100%' }}>
+              ⚙ Edit
+            </Link>
+          </div>
+        </div>
       ))}
     </>
   );

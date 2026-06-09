@@ -143,17 +143,20 @@ button,
   cursor: pointer;
   text-align: center;
 }
-button.secondary {
+button.secondary,
+.btn.secondary {
   background: var(--panel2);
   color: var(--txt);
   border: 1px solid var(--line);
 }
-button.danger {
+button.danger,
+.btn.danger {
   background: transparent;
   color: var(--rd);
   border: 1px solid var(--line);
 }
-button.small {
+button.small,
+.btn.small {
   width: auto;
   padding: 10px 14px;
   font-size: 14px;

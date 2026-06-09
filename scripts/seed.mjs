@@ -6,11 +6,24 @@ rmSync('./data', { recursive: true, force: true });
 mkdirSync('./data', { recursive: true });
 
 const db = new DatabaseSync(path);
+db.exec('PRAGMA foreign_keys = ON;');
+// Schema MUST match migration 1 in lib/db.ts (FKs + ON DELETE CASCADE).
 db.exec(`
-  CREATE TABLE teams(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, members TEXT DEFAULT '[]', circuit TEXT, sort INTEGER DEFAULT 0);
-  CREATE TABLE tournaments(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, type TEXT, weight REAL DEFAULT 1.0, config TEXT DEFAULT '{}', sort INTEGER DEFAULT 0);
-  CREATE TABLE scores(id INTEGER PRIMARY KEY AUTOINCREMENT, tournament_id INTEGER, team_id INTEGER, value TEXT DEFAULT '{}', updated_at TEXT, UNIQUE(tournament_id, team_id));
+  CREATE TABLE teams(
+    id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL,
+    members TEXT NOT NULL DEFAULT '[]', circuit TEXT, sort INTEGER NOT NULL DEFAULT 0);
+  CREATE TABLE tournaments(
+    id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, type TEXT NOT NULL,
+    weight REAL NOT NULL DEFAULT 1.0, config TEXT NOT NULL DEFAULT '{}', sort INTEGER NOT NULL DEFAULT 0);
+  CREATE TABLE scores(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    tournament_id INTEGER NOT NULL REFERENCES tournaments(id) ON DELETE CASCADE,
+    team_id INTEGER NOT NULL REFERENCES teams(id) ON DELETE CASCADE,
+    value TEXT NOT NULL DEFAULT '{}',
+    updated_at TEXT NOT NULL DEFAULT (datetime('now')),
+    UNIQUE(tournament_id, team_id));
 `);
+db.exec('PRAGMA user_version = 1;'); // mark as schema v1.0, same as the app
 
 const teams = [
   ['Red Foxes', 'A'], ['Blue Whales', 'B'], ['Gold Lions', 'A'],
